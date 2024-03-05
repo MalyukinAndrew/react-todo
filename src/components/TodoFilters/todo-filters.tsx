@@ -4,12 +4,10 @@ import { classes } from './styles';
 import { setFilter } from '../../store/todo-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { Filter } from '../../types';
-import { todosCountersSelector } from '../../store/selectors';
+import { getActiveFilter, todosCountersSelector } from '../../store/selectors';
 
 const TodoFilters: React.FC = () => {
-  const filter = useAppSelector((state) => {
-    return state.todos.filter;
-  });
+  const filter = useAppSelector(getActiveFilter);
   const { all, completed, notCompleted } = useAppSelector(
     todosCountersSelector,
   );
