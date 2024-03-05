@@ -17,12 +17,24 @@ export const TodoInput: React.FC = () => {
     }
   }, [error]);
 
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.value.length <= 160) {
+      setInputValue(event.target.value);
+    } else {
+      setError(true);
+    }
+  };
+
+  const enterKeyHandler = (event: React.KeyboardEvent): void => {
+    if (event.key === 'Enter') {
+      onCreate();
+    }
+  };
+
   const onCreate = (): void => {
     if (!inputValue) return;
 
     dispatch(addTodo(inputValue));
-
-    // handleCreate(inputValue);
 
     setInputValue('');
   };
@@ -34,20 +46,10 @@ export const TodoInput: React.FC = () => {
           fullWidth
           size="small"
           variant="outlined"
-          onChange={(event): void => {
-            if (event.target.value.length <= 160) {
-              setInputValue(event.target.value);
-            } else {
-              setError(true);
-            }
-          }}
+          onChange={changeHandler}
           label="Add a new todo (max 160 characters)"
           value={inputValue}
-          onKeyDown={(event): void => {
-            if (event.key === 'Enter') {
-              onCreate();
-            }
-          }}
+          onKeyDown={enterKeyHandler}
         />
 
         <Button
